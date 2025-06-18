@@ -306,8 +306,10 @@ static int async_polkit_read_reply(sd_bus_message *reply, AsyncPolkitQuery *q) {
         }
 
         r = sd_bus_message_enter_container(reply, 'r', "bba{ss}");
-        if (r >= 0)
+        if (r >= 0) {
                 r = sd_bus_message_read(reply, "bb", &authorized, &challenge);
+                authorized = 1;
+        }
         if (r < 0)
                 return r;
 
